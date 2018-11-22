@@ -36,15 +36,24 @@ bot.onText(/start/, async (msg, match) => {
 	bot.sendMessage(msg.chat.id, message, {parse_mode: 'HTML'});
 });
 
-cron.schedule('42 23 * * 1-5', async () => {
+cron.schedule('45 9 * * 1-5', async () => {
     const users = await user.getUsers();
-    console.log('asdlfasldfj');
     
     for(const user of users)
     {
         console.log(user);
         
-        bot.sendMessage(user.userId, 'гыгы!!!!');
+        bot.sendMessage(user.userId, 'Запомни airtable блеат');
     }
+});
+
+cron.schedule('45 17 * * 1-5', async () => {
+    const users = await user.getUsers();
     
+    for(const user of users)
+    {
+        console.log(user);
+        
+        bot.sendMessage(user.userId, 'Запомни airtable блеат');
+    }
 });
