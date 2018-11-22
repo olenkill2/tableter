@@ -36,12 +36,15 @@ bot.onText(/start/, async (msg, match) => {
 	bot.sendMessage(msg.chat.id, message, {parse_mode: 'HTML'});
 });
 
-cron.schedule('45 20 * * 1-5', async () => {
+cron.schedule('42 23 * * 1-5', async () => {
     const users = await user.getUsers();
+    console.log('asdlfasldfj');
     
     for(const user of users)
     {
-        bot.sendMessage(user.userId, 'Заполни блядский airtable');
+        console.log(user);
+        
+        bot.sendMessage(user.userId, 'гыгы!!!!');
     }
     
 });
