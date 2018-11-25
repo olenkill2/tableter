@@ -17,6 +17,8 @@
     "mongoose": "^5.3.13",
     "node-cron": "^2.0.3",
     "node-telegram-bot-api": "^0.30.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
     "socks5-https-client": "^1.2.1"
   }
 }

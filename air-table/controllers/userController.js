@@ -10,14 +10,21 @@ const user = {
             return false;
         
 		const newUser = User(user);
-		newUser.save((err) => {
-			if(err)
-				return console.log(err)
-			else
-				console.log('user created')
-        })
+		newUser.save();
         
         return false;
+    },
+    async setFullName (user) {
+        const result = await User.find({userId: user.userId})
+        await User.updateOne({ userId: user.userId}, {$set: {fullName: user.fullName, subscribed: true}},{new: true});
+        return true;
+    },
+    async unscribe (user) {
+        const res = await User.updateOne({ userId: user.userId}, {$set: {subscribed: false}},{new: true});
+        return true;
+    },
+    async getUser (id) {
+        return await User.findOne({userId: id});
     },
     async getUsers () {
         return await User.find({});
