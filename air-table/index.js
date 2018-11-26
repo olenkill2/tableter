@@ -217,7 +217,7 @@ cron.schedule('45 17 * * 1-5', async () => {
 
 // уведомляем, что надо заполнить airtable
 cron.schedule('*/20 * * * * *', async () => {
-    bot.sendMessage(msg.chat.id, 'proverka', {parse_mode: 'HTML'}).then( payload => {
+    bot.sendMessage('126385460', 'proverka', {parse_mode: 'HTML'}).then( payload => {
         console.log(payload);
         
         // log.add({
