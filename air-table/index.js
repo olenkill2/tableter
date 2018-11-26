@@ -203,8 +203,6 @@ var notificateUsers = async function (yerstadayDate) {
         }
 }
 
-// notificateUsers(false)
-
 // уведомляем утром тех, кто вчера не заполнил
 cron.schedule('45 9 * * 2-6', async () => {
     notificateUsers(true);
@@ -213,19 +211,4 @@ cron.schedule('45 9 * * 2-6', async () => {
 // уведомляем, что надо заполнить airtable
 cron.schedule('45 17 * * 1-5', async () => {
     notificateUsers(false);
-});
-
-// уведомляем, что надо заполнить airtable
-cron.schedule('*/20 * * * * *', async () => {
-    bot.sendMessage('126385460', 'proverka', {parse_mode: 'HTML'}).then( payload => {
-        console.log(payload);
-        
-        // log.add({
-        //     userId: msg.chat.id,
-        //     fullName: msg.chat.first_name,
-        //     comand: match[0],
-        //     whoSend: match.input,
-        //     response: 'proverka',
-        // })
-    });
 });
