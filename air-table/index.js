@@ -122,7 +122,6 @@ bot.onText(/subscribe(.*)/, async (msg, match) => {
             whoSend: match.input,
             response: msgRes,
         })
-        
     });
 });
 
@@ -188,21 +187,20 @@ var getNotFilledUsers = async function(yerstadayDate) {
 // уведомляем юзеров не заполнивших бота
 var notificateUsers = async function (yerstadayDate) {
     const notFilledUsers = await getNotFilledUsers(yerstadayDate);    
-    console.log(notFilledUsers);
-    
-    // if(notFilledUsers.length)
-    //     for(const user of notFilledUsers)
-    //     {
-    //         bot.sendMessage(user.userId, 'Заполни airtable блеат').then( payload => {
-    //             log.add({
-    //                 userId: user.userId,
-    //                 fullName: user.fullName,
-    //                 comand: 'notification',
-    //                 whoSend: 'null',
-    //                 response: 'Заполни airtable блеат',
-    //             })
-    //         });
-    //     }
+       
+    if(notFilledUsers.length)
+        for(const user of notFilledUsers)
+        {
+            bot.sendMessage(user.userId, 'Заполни airtable блеат').then( payload => {
+                log.add({
+                    userId: user.userId,
+                    fullName: user.fullName,
+                    comand: 'notification',
+                    whoSend: 'null',
+                    response: 'Заполни airtable блеат',
+                })
+            });
+        }
 }
 
 // notificateUsers(false)
@@ -219,5 +217,15 @@ cron.schedule('45 17 * * 1-5', async () => {
 
 // уведомляем, что надо заполнить airtable
 cron.schedule('*/20 * * * * *', async () => {
-    notificateUsers(false);
+    bot.sendMessage(msg.chat.id, 'proverka', {parse_mode: 'HTML'}).then( payload => {
+        console.log(payload);
+        
+        // log.add({
+        //     userId: msg.chat.id,
+        //     fullName: msg.chat.first_name,
+        //     comand: match[0],
+        //     whoSend: match.input,
+        //     response: 'proverka',
+        // })
+    });
 });
