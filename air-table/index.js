@@ -1,7 +1,9 @@
+process.env.NTBA_FIX_319 = 1;
 const TelegramBot = require('node-telegram-bot-api');
 const Agent = require('socks5-https-client/lib/Agent')
 const config = require('./config/config.js');
 const user = require('./controllers/userController.js');
+const log = require('./controllers/logController.js');
 const mongoose = require('mongoose');
 const cron = require('node-cron');
 const request = require('request-promise');
@@ -45,11 +47,19 @@ bot.onText(/start/, async (msg, match) => {
 
     });
 
-    const message = `Привет, ${msg.from['first_name']}! \n`+
+    var message = `Привет, ${msg.from['first_name']}! \n`+
         `Чтобы получать уводомления напиши мне свое фио из airtable \n`+
         `вот в таком виде "/subscribe Имя Фамилия" \n \n`+
         `Уведомления будут приходить в 9:45 и в 17:45`;
-	bot.sendMessage(msg.chat.id, message, {parse_mode: 'HTML'});
+	bot.sendMessage(msg.chat.id, message, {parse_mode: 'HTML'}).then( payload => {        
+        log.add({
+            userId: msg.chat.id,
+            fullName: msg.chat.first_name,
+            comand: match[0],
+            whoSend: match.input,
+            response: message,
+        })
+    });
 });
 
 // выводим приветственное сообщение 
@@ -58,7 +68,15 @@ bot.onText(/unscribe/, async (msg, match) => {
         userId: msg.from.id,
     });
     const message = `Ты больше не будешь получать уведомления`;
-	bot.sendMessage(msg.chat.id, message, {parse_mode: 'HTML'});
+	bot.sendMessage(msg.chat.id, message, {parse_mode: 'HTML'}).then( payload => {
+        log.add({
+            userId: msg.chat.id,
+            fullName: msg.chat.first_name,
+            comand: match[0],
+            whoSend: match.input,
+            response: message,
+        })
+    });
 });
 
 // выводим приветственное сообщение 
@@ -70,7 +88,15 @@ bot.onText(/status/, async (msg, match) => {
     else
         message = `Не подписан`;
 
-	bot.sendMessage(msg.chat.id, message, {parse_mode: 'HTML'});
+	bot.sendMessage(msg.chat.id, message, {parse_mode: 'HTML'}).then( payload => {
+        log.add({
+            userId: msg.chat.id,
+            fullName: msg.chat.first_name,
+            comand: match[0],
+            whoSend: match.input,
+            response: message,
+        })
+    });
 });
 
 // регестрируем пользователей 
@@ -88,7 +114,16 @@ bot.onText(/subscribe(.*)/, async (msg, match) => {
     } else {
         msgRes = 'Отправь сообщение в формате "/subscribe имя фамилия"'
     }
-	bot.sendMessage(msg.chat.id, msgRes, {parse_mode: 'HTML'});
+	bot.sendMessage(msg.chat.id, msgRes, {parse_mode: 'HTML'}).then( payload => {
+        log.add({
+            userId: msg.chat.id,
+            fullName: msg.chat.first_name,
+            comand: match[0],
+            whoSend: match.input,
+            response: msgRes,
+        })
+        
+    });
 });
 
 // парсим узеров заполнивших air table
@@ -129,10 +164,14 @@ var getFilledUsers = async function(yerstadayDate)
     return whotInsert;
 }
 
+// console.log(getFilledUsers(false));
+
+
 // получаем юзеров бота, которые не заполнили airtable
 var getNotFilledUsers = async function(yerstadayDate) {    
     const filledUsers = await getFilledUsers(yerstadayDate);
     const getBotUsers = await user.getUsers();
+    
     let notFilledUsers = [];
 
     if(!filledUsers.length)
@@ -142,25 +181,43 @@ var getNotFilledUsers = async function(yerstadayDate) {
         if(botUser.subscribed && !filledUsers.includes(botUser.fullName))
             notFilledUsers.push(botUser)
     }
+    
     return notFilledUsers;
 }
 
 // уведомляем юзеров не заполнивших бота
 var notificateUsers = async function (yerstadayDate) {
-    const notFilledUsers = await getNotFilledUsers(yerstadayDate);
-    if(notFilledUsers.length)
-        for(const user of notFilledUsers)
-        {
-            bot.sendMessage(user.userId, 'Заполни airtable блеат');
-        }
+    const notFilledUsers = await getNotFilledUsers(yerstadayDate);    
+    console.log(notFilledUsers);
+    
+    // if(notFilledUsers.length)
+    //     for(const user of notFilledUsers)
+    //     {
+    //         bot.sendMessage(user.userId, 'Заполни airtable блеат').then( payload => {
+    //             log.add({
+    //                 userId: user.userId,
+    //                 fullName: user.fullName,
+    //                 comand: 'notification',
+    //                 whoSend: 'null',
+    //                 response: 'Заполни airtable блеат',
+    //             })
+    //         });
+    //     }
 }
+
+// notificateUsers(false)
 
 // уведомляем утром тех, кто вчера не заполнил
 cron.schedule('45 9 * * 2-6', async () => {
-    notificateUsers(true)
+    notificateUsers(true);
 });
 
 // уведомляем, что надо заполнить airtable
 cron.schedule('45 17 * * 1-5', async () => {
-    notificateUsers(false)
+    notificateUsers(false);
+});
+
+// уведомляем, что надо заполнить airtable
+cron.schedule('*/20 * * * * *', async () => {
+    notificateUsers(false);
 });
