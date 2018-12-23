@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const cron = require('node-cron');
 const request = require('request-promise');
 
+// параметры для гет запроса к airtable
 const options = {
     url: 'https://airtable.com/v0.3/application/appraCyeBM03Mocds/read?stringifiedObjectParams=%7B%22includeDataForTableIds%22%3A%5B%22tblLcFW7k7ECFGgfx%22%5D%2C%22includeDataForViewIds%22%3A%5B%22viwVq4UG2lh2NZr6r%22%5D%7D&requestId=reqtby0TJeACUtTlm&accessPolicy=%7B%22allowedActions%22%3A%5B%7B%22modelClassName%22%3A%22application%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds%22%2C%22action%22%3A%22read%22%7D%2C%7B%22modelClassName%22%3A%22application%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds%22%2C%22action%22%3A%22readBlockInstallationPages%22%7D%2C%7B%22modelClassName%22%3A%22application%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds%22%2C%22action%22%3A%22readBlockInstallations%22%7D%2C%7B%22modelClassName%22%3A%22application%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds%22%2C%22action%22%3A%22readInitialDataForBlockInstallations%22%7D%2C%7B%22modelClassName%22%3A%22blockInstallationPage%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readLayouts%22%7D%2C%7B%22modelClassName%22%3A%22table%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22read%22%7D%2C%7B%22modelClassName%22%3A%22table%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readData%22%7D%2C%7B%22modelClassName%22%3A%22table%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readDataForRowCards%22%7D%2C%7B%22modelClassName%22%3A%22view%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readRowOrder%22%7D%2C%7B%22modelClassName%22%3A%22view%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readData%22%7D%2C%7B%22modelClassName%22%3A%22view%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22getMetadataForPrinting%22%7D%2C%7B%22modelClassName%22%3A%22row%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readDataForDetailView%22%7D%2C%7B%22modelClassName%22%3A%22row%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22createBoxDocumentSession%22%7D%2C%7B%22modelClassName%22%3A%22row%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22createDocumentPreviewSession%22%7D%2C%7B%22modelClassName%22%3A%22view%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22downloadCsv%22%7D%2C%7B%22modelClassName%22%3A%22view%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22downloadICal%22%7D%2C%7B%22modelClassName%22%3A%22row%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22downloadAttachment%22%7D%5D%2C%22shareId%22%3A%22shrtWt6CL5zklWiV7%22%2C%22applicationId%22%3A%22appraCyeBM03Mocds%22%2C%22sessionId%22%3A%22sesLCvFski1uCnNan%22%2C%22generationNumber%22%3A0%2C%22signature%22%3A%222e93e9011f4b5d55bf1ac0608da76eae84c768090fac76e32ba6e286bc46bc5f%22%7D',
     headers : {
@@ -24,6 +25,7 @@ const options = {
     },
 };
 
+// создание бота
 const bot = new TelegramBot(config.secretToken, {
 	polling: true, 
 	request: {
@@ -32,7 +34,7 @@ const bot = new TelegramBot(config.secretToken, {
 	}
 });
 
-
+// подключение к бд
 mongoose.connect(config.databaseUrl, { 
     useNewUrlParser: true
 }).catch(() => {
@@ -58,11 +60,12 @@ bot.onText(/start/, async (msg, match) => {
             comand: match[0],
             whoSend: match.input,
             response: message,
+            create_at: new Date()
         })
     });
 });
 
-// выводим приветственное сообщение 
+// отписываем пользователя
 bot.onText(/unscribe/, async (msg, match) => {
     const res = await user.unscribe({
         userId: msg.from.id,
@@ -75,11 +78,12 @@ bot.onText(/unscribe/, async (msg, match) => {
             comand: match[0],
             whoSend: match.input,
             response: message,
+            create_at: new Date()
         })
     });
 });
 
-// выводим приветственное сообщение 
+// выводим статус пользователя 
 bot.onText(/status/, async (msg, match) => {
     const userInfo = await user.getUser(msg.chat.id);
     let message = '';
@@ -95,6 +99,7 @@ bot.onText(/status/, async (msg, match) => {
             comand: match[0],
             whoSend: match.input,
             response: message,
+            create_at: new Date()
         })
     });
 });
@@ -121,6 +126,7 @@ bot.onText(/subscribe(.*)/, async (msg, match) => {
             comand: match[0],
             whoSend: match.input,
             response: msgRes,
+            create_at: new Date()
         })
     });
 });
@@ -163,9 +169,6 @@ var getFilledUsers = async function(yerstadayDate)
     return whotInsert;
 }
 
-// console.log(getFilledUsers(false));
-
-
 // получаем юзеров бота, которые не заполнили airtable
 var getNotFilledUsers = async function(yerstadayDate) {    
     const filledUsers = await getFilledUsers(yerstadayDate);
@@ -180,7 +183,6 @@ var getNotFilledUsers = async function(yerstadayDate) {
         if(botUser.subscribed && !filledUsers.includes(botUser.fullName))
             notFilledUsers.push(botUser)
     }
-    
     return notFilledUsers;
 }
 
@@ -198,6 +200,7 @@ var notificateUsers = async function (yerstadayDate) {
                     comand: 'notification',
                     whoSend: 'null',
                     response: 'Заполни airtable блеат',
+                    create_at: new Date()
                 })
             });
         }
