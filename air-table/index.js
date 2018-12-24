@@ -10,19 +10,23 @@ const request = require('request-promise');
 
 // параметры для гет запроса к airtable
 const options = {
-    url: 'https://airtable.com/v0.3/application/appraCyeBM03Mocds/read?stringifiedObjectParams=%7B%22includeDataForTableIds%22%3A%5B%22tblLcFW7k7ECFGgfx%22%5D%2C%22includeDataForViewIds%22%3A%5B%22viwVq4UG2lh2NZr6r%22%5D%7D&requestId=reqtby0TJeACUtTlm&accessPolicy=%7B%22allowedActions%22%3A%5B%7B%22modelClassName%22%3A%22application%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds%22%2C%22action%22%3A%22read%22%7D%2C%7B%22modelClassName%22%3A%22application%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds%22%2C%22action%22%3A%22readBlockInstallationPages%22%7D%2C%7B%22modelClassName%22%3A%22application%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds%22%2C%22action%22%3A%22readBlockInstallations%22%7D%2C%7B%22modelClassName%22%3A%22application%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds%22%2C%22action%22%3A%22readInitialDataForBlockInstallations%22%7D%2C%7B%22modelClassName%22%3A%22blockInstallationPage%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readLayouts%22%7D%2C%7B%22modelClassName%22%3A%22table%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22read%22%7D%2C%7B%22modelClassName%22%3A%22table%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readData%22%7D%2C%7B%22modelClassName%22%3A%22table%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readDataForRowCards%22%7D%2C%7B%22modelClassName%22%3A%22view%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readRowOrder%22%7D%2C%7B%22modelClassName%22%3A%22view%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readData%22%7D%2C%7B%22modelClassName%22%3A%22view%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22getMetadataForPrinting%22%7D%2C%7B%22modelClassName%22%3A%22row%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readDataForDetailView%22%7D%2C%7B%22modelClassName%22%3A%22row%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22createBoxDocumentSession%22%7D%2C%7B%22modelClassName%22%3A%22row%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22createDocumentPreviewSession%22%7D%2C%7B%22modelClassName%22%3A%22view%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22downloadCsv%22%7D%2C%7B%22modelClassName%22%3A%22view%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22downloadICal%22%7D%2C%7B%22modelClassName%22%3A%22row%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22downloadAttachment%22%7D%5D%2C%22shareId%22%3A%22shrtWt6CL5zklWiV7%22%2C%22applicationId%22%3A%22appraCyeBM03Mocds%22%2C%22sessionId%22%3A%22sesLCvFski1uCnNan%22%2C%22generationNumber%22%3A0%2C%22signature%22%3A%222e93e9011f4b5d55bf1ac0608da76eae84c768090fac76e32ba6e286bc46bc5f%22%7D',
+    url: 'https://airtable.com/v0.3/table/tblLcFW7k7ECFGgfx/readData?stringifiedObjectParams=%7B%22includeDataForViewIds%22%3Anull%7D&requestId=reqtjqT2x1R23IUd0&accessPolicy=%7B%22allowedActions%22%3A%5B%7B%22modelClassName%22%3A%22application%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds%22%2C%22action%22%3A%22read%22%7D%2C%7B%22modelClassName%22%3A%22application%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds%22%2C%22action%22%3A%22readBlockInstallationPages%22%7D%2C%7B%22modelClassName%22%3A%22application%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds%22%2C%22action%22%3A%22readBlockInstallations%22%7D%2C%7B%22modelClassName%22%3A%22application%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds%22%2C%22action%22%3A%22readInitialDataForBlockInstallations%22%7D%2C%7B%22modelClassName%22%3A%22blockInstallationPage%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readLayouts%22%7D%2C%7B%22modelClassName%22%3A%22table%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22read%22%7D%2C%7B%22modelClassName%22%3A%22table%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readData%22%7D%2C%7B%22modelClassName%22%3A%22table%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readDataForRowCards%22%7D%2C%7B%22modelClassName%22%3A%22view%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readRowOrder%22%7D%2C%7B%22modelClassName%22%3A%22view%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readData%22%7D%2C%7B%22modelClassName%22%3A%22view%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22getMetadataForPrinting%22%7D%2C%7B%22modelClassName%22%3A%22row%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22readDataForDetailView%22%7D%2C%7B%22modelClassName%22%3A%22row%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22createBoxDocumentSession%22%7D%2C%7B%22modelClassName%22%3A%22row%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22createDocumentPreviewSession%22%7D%2C%7B%22modelClassName%22%3A%22view%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22downloadCsv%22%7D%2C%7B%22modelClassName%22%3A%22view%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22downloadICal%22%7D%2C%7B%22modelClassName%22%3A%22row%22%2C%22modelIdSelector%22%3A%22appraCyeBM03Mocds+*%22%2C%22action%22%3A%22downloadAttachment%22%7D%5D%2C%22shareId%22%3A%22shrtWt6CL5zklWiV7%22%2C%22applicationId%22%3A%22appraCyeBM03Mocds%22%2C%22sessionId%22%3A%22sesLCvFski1uCnNan%22%2C%22generationNumber%22%3A0%2C%22signature%22%3A%222e93e9011f4b5d55bf1ac0608da76eae84c768090fac76e32ba6e286bc46bc5f%22%7D',
     headers : {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36',
-        'Cookie': 'lightstep_guid/sharedForm=07300f0631a0ea47; lightstep_session_id=32d4c639383eb5c5; lightstep_guid/sharedViewOrApp=181155dc05f14395; express:sess=eyJzZXNzaW9uSWQiOiJzZXNMQ3ZGc2tpMXVDbk5hbiIsImNzcmZTZWNyZXQiOiI0bVAwUXRMbkdTd0w2NXdqWS1TRnE3X1oiLCJyZWRpcmVjdFRvQWZ0ZXJMb2dpbiI6Ii92MC4zL3RhYmxlL3RibExjRlc3azdFQ0ZHZ2Z4L3JlYWREYXRhIiwiYWNxdWlzaXRpb24iOiJbe1wicGxhdGZvcm1cIjpcImRlc2t0b3BcIixcIm9yaWdpblwiOlwibG9naW5cIixcInRvdWNoVGltZVwiOlwiMjAxOC0xMS0yMlQxODoyNjoxNS40NTVaXCJ9XSJ9; express:sess.sig=OAC6LC41HZTmBea-NImrK5Yai4c',
-        'Accept': '/',
+        'Accept': 'application/json, text/javascript, */*; q=0.01',
+        'Accept-Encoding': 'null',
+        'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Cache-Control': 'no-cache',
         'Connection': 'keep-alive',
+        'Cookie': 'sess=eyJzZXNzaW9uSWQiOiJzZXNMQ3ZGc2tpMXVDbk5hbiIsImNzcmZTZWNyZXQiOiI0bVAwUXRMbkdTd0w2NXdqWS1TRnE3X1oiLCJyZWRpcmVjdFRvQWZ0ZXJMb2dpbiI6Ii92MC4zL3RhYmxlL3RibExjRlc3azdFQ0ZHZ2Z4L3JlYWREYXRhIiwiYWNxdWlzaXRpb24iOiJbe1wicGxhdGZvcm1cIjpcImRlc2t0b3BcIixcIm9yaWdpblwiOlwibG9naW5cIixcInRvdWNoVGltZVwiOlwiMjAxOC0xMS0yMlQxODoyNjoxNS40NTVaXCJ9XSJ9; express:sess.sig=OAC6LC41HZTmBea-NImrK5Yai4c; lightstep_guid/sharedViewOrApp=12f2944659793764; lightstep_session_id=79a0af9d50b3451e',
+        'Pragma': 'no-cache',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
         'x-airtable-application-id': 'appraCyeBM03Mocds',
         'X-Compress': 'null',
         'X-Requested-With': 'XMLHttpRequest',
         'x-time-zone': 'Europe/Moscow',
         'x-user-locale': 'ru',
-        'Accept': 'application/json, text/javascript, */*; q=0.01'
-    },
+	},
+	
 };
 
 // создание бота
@@ -139,12 +143,15 @@ var getFilledUsers = async function(yerstadayDate)
     let curDate = '';
     let whotInsert = [];
     const data = await request.get(options).then((res) => {
-        res = JSON.parse(res).data.tableDatas[0].rows;
+		// console.log(res);
+		res = JSON.parse(res).data.rows;    
+		    
         return res;
     }).catch((err) => {
         res = err;
         return res;
-    });
+	});
+	
     
     // меняем дату на "вчера"
     if(yerstadayDate == true)
@@ -157,17 +164,19 @@ var getFilledUsers = async function(yerstadayDate)
 
         if(typeof raw.cellValuesByColumnId == 'undefined')
             continue;
-
+		
         var date = raw.cellValuesByColumnId.fldPWNuiRKgdnt0Fw.slice(0,10);
 
         if(date != curDate)
             continue;
-
-        whotInsert.push(raw.cellValuesByColumnId.fldfGl1C4Wq7CcmKh[0].foreignRowDisplayName.toLocaleLowerCase())
+		if(raw.cellValuesByColumnId.fldfGl1C4Wq7CcmKh != undefined)
+        	whotInsert.push(raw.cellValuesByColumnId.fldfGl1C4Wq7CcmKh[0].foreignRowDisplayName.toLocaleLowerCase())
     }
 
     return whotInsert;
 }
+
+
 
 // получаем юзеров бота, которые не заполнили airtable
 var getNotFilledUsers = async function(yerstadayDate) {    
@@ -182,7 +191,8 @@ var getNotFilledUsers = async function(yerstadayDate) {
     {
         if(botUser.subscribed && !filledUsers.includes(botUser.fullName))
             notFilledUsers.push(botUser)
-    }
+	}
+	
     return notFilledUsers;
 }
 
