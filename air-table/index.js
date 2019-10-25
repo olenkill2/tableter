@@ -143,7 +143,6 @@ var getFilledUsers = async function(yerstadayDate)
 	let curDate = '';
 	let whotInsert = [];
 	const data = await request.get(options).then((res) => {
-		// console.log(res);
 		res = JSON.parse(res).data.rows;
 
 		return res;
@@ -203,7 +202,7 @@ var notificateUsers = async function (yerstadayDate) {
 	if(notFilledUsers.length)
 		for(const user of notFilledUsers)
 		{
-			bot.sendMessage(user.userId, 'Заполни airtable блеат').then( payload => {
+			bot.sendMessage(user.userId, 'Заполни airtable блеат airtable.com/shrDEdMVQbT5RsF7U').then( payload => {
 				log.add({
 					userId: user.userId,
 					fullName: user.fullName,
