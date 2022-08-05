@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "moment": "^2.22.2",
-    "mongoose": "^5.3.13",
+    "mongoose": "^5.7.5",
     "node-cron": "^2.0.3",
     "node-telegram-bot-api": "^0.30.0",
     "request": "^2.88.0",
